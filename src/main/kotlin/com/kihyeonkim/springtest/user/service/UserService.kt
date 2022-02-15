@@ -20,16 +20,16 @@ class UserService(private val userRepository: UserRepository) {
 	fun modifyUserName(id: Long, name: String) {
 		val user = userRepository.findById(id).orElseThrow { EntityNotFoundException() }
 
-		user.name = name;
+		user.name = name
 
-		userRepository.save(user);
+		userRepository.save(user)
 	}
 
 	fun deleteUserById(id: Long) {
-		userRepository.deleteById(id)
+			userRepository.deleteById(id)
 	}
 
 	fun isUserExist(id: Long): Boolean {
-		return userRepository.existsById(id);
+		return userRepository.existsById(id)
 	}
 }

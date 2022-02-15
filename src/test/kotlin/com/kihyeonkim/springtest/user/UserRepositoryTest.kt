@@ -9,13 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class UserRepositoryTest {
 	@Autowired
-	private lateinit var userRepository: UserRepository;
+	private lateinit var userRepository: UserRepository
 
 	private fun makeTestUser() = User()
 
 	@Test
 	fun addUser() {
 		val user = userRepository.save(makeTestUser())
+
+		assert(user.id != -1L)
 	}
 
 	@Test
