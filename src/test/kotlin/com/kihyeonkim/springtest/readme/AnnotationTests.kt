@@ -13,19 +13,29 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestReporter
 import org.junit.jupiter.api.Timeout
 import org.junit.jupiter.api.condition.DisabledIf
 import org.junit.jupiter.api.condition.EnabledIf
 import org.junit.jupiter.api.condition.EnabledOnOs
 import org.junit.jupiter.api.condition.OS
+import org.junit.jupiter.api.extension.ParameterContext
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.aggregator.AggregateWith
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor
+import org.junit.jupiter.params.aggregator.ArgumentsAggregator
+import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.EmptySource
 import org.junit.jupiter.params.provider.EnumSource
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.NullAndEmptySource
 import org.junit.jupiter.params.provider.NullSource
 import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.boot.test.context.SpringBootTest
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
+import java.util.stream.Stream
 
 @BeforeAll
 fun beforeAll() {
@@ -170,28 +180,91 @@ class AnnotationTests {
 
 	@ParameterizedTest
 	@EnumSource(Enums::class)
-	fun parameterizedTest6(enums:Enums) {
+	fun parameterizedTest6(enums: Enums) {
 		println("enum: $enums")
 	}
 
 	@ParameterizedTest
 	@EnumSource
-	fun parameterizedTest7(enums:Enums) {
+	fun parameterizedTest7(enums: Enums) {
 		println("enum: $enums")
 	}
 
 	@ParameterizedTest
 	@EnumSource(names = ["ENUM1", "ENUM3"])
-	fun parameterizedTest8(enums:Enums) {
+	fun parameterizedTest8(enums: Enums) {
 		println("enum: $enums")
 	}
 
 	@ParameterizedTest
 	@EnumSource(names = ["ENUM1", "ENUM3"], mode = EnumSource.Mode.EXCLUDE)
-	fun parameterizedTest9(enums:Enums) {
+	fun parameterizedTest9(enums: Enums) {
 		println("enum: $enums")
 	}
+
+	@ParameterizedTest
+	@MethodSource("methodSourceMethod")
+	fun parameterizedTest10(str: String) {
+		println("str: $str")
+	}
+
+	@ParameterizedTest
+	@MethodSource("methodSourceMethodStream")
+	fun parameterizedTest11(str: String) {
+		println("str: $str")
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	fun parameterizedTest12(str: String) {
+		println("str: $str")
+	}
+
+	companion object {
+		@JvmStatic
+		fun methodSourceMethod() = arrayOf("test1", "test2")
+
+		@JvmStatic
+		fun methodSourceMethodStream(): Stream<String> = Stream.of("test1", "test2")
+
+		@JvmStatic
+		fun parameterizedTest12(): Stream<String> = Stream.of("value1", "value2")
+	}
+
+	data class Person(val name: String, val address: String, val date: LocalDate)
+
+	@ParameterizedTest
+	@CsvSource(
+		value =
+		["thisIsName, 서울시, 2022-01-10", "NameIsName, 경기도, 2022-02-01"]
+	)
+	fun parameterizedTest12(@AggregateWith(PersonAggregator::class) person: Person) {
+		println("person: $person")
+	}
+
+	class PersonAggregator : ArgumentsAggregator {
+		override fun aggregateArguments(accessor: ArgumentsAccessor?, context: ParameterContext?): Any {
+			return AnnotationTests.Person(
+				accessor!!.getString(0),
+				accessor.getString(1),
+				accessor.get(2, LocalDate::class.java)
+			)
+		}
+	}
+
+	@ParameterizedTest(name = "{index}th test {0} ==========> {1}")
+	@CsvSource(value = ["apple, red", "banana, yellow", "peach, pink"])
+	fun parameterizedTest13(fruit: String, color: String) {
+
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = ["apple", "banana", "pink"])
+	fun parameterizedTest14(fruit: String, testReporter: TestReporter) {
+		testReporter.publishEntry("fruits", fruit)
+	}
 }
+
 
 object ExternalClass {
 	@JvmStatic

@@ -55,9 +55,9 @@
 @ValueSource(strings = ["Kim", "Lee", "Park"])  //@ParameterizedTest에 필요한 파라미터 값을 전달함
 @NullSource //@ParameterizedTest 메소드에 null을 제공함
 @EmptySource //@ParameterizedTest 메소드에 빈배열, 빈값을 제공함
-@NullAndEmptySOurce // @NullSource, @EmptySource를 합친 것
-@EnumSource //Enum을 편리하게 사용할 수 있도록 해줌
-
+@NullAndEmptySource // @NullSource, @EmptySource를 합친 것
+@EnumSource //Enum을 편리하게 사용할 수 있도록 해줌(이름 생략 가능 - 파라미터로 추정)
+@MethodSource //메소드로 부터 값을 가져와 주입함 Stream, Array 다됨(이름 생략 가능 - source Method, test Method 이름 같은 경우)
 
 
 
