@@ -27,4 +27,38 @@
 @TempDir //필드 주입이나 파라미터 주입을 통해 임시적 디렉토리를 제공할 때 사용
 
 @EnabledOnOs //OS에 따라서 테스트를 진행함
+
+@DisplayNameGeneration(조건) //주어진 조건에 따라서 메소드들 이름을 수정함
+//조건 
+// * Standard: 메소드 이름과 뒤에 붙는 괄호를 모두 보여줌
+// * Simple: 메소드 이름만 보여줌
+// * ReplaceUnderscores: 어더스코어를 빈칸으로 변형
+// * IndicativeSentences: 테스트 클래스 이름과 테스트 메소드 이름 + 괄호를 보여줌
+
+@Order //테스트 실행 순서를 지정
+
+@TestMethodOrder(조건) //주어진 조건에 따라서 실행 순서를 지정
+//조건 
+// * DisplayName: displayName기반으로 정렬
+// * MethodName: 메소드 이름으로 정렬
+// * OrderAnnotation: @Order 어노테이션에 명시된 순서로 정렬
+// * Random: 랜덤으로 정렬
+
+@EnableIf
+@DisableIf
+//메소드를 지정해서 그 메소드의 리턴값이 true/false인 경우 에만 실행, 외부 메소드의 경우는 다 지정해줘야함
+
+@RepeatedTest //주어진 횟수 만큼 테스트를 반복함 //name 기정을 통해 메소드 이름을 지정할 수 있음
+
+@ParameterizedTest  //@Test와는 다르게 파라미터가 있는 테스트용
+//아래는 파라미터 주입 관련
+@ValueSource(strings = ["Kim", "Lee", "Park"])  //@ParameterizedTest에 필요한 파라미터 값을 전달함
+@NullSource //@ParameterizedTest 메소드에 null을 제공함
+@EmptySource //@ParameterizedTest 메소드에 빈배열, 빈값을 제공함
+@NullAndEmptySOurce // @NullSource, @EmptySource를 합친 것
+@EnumSource //Enum을 편리하게 사용할 수 있도록 해줌
+
+
+
+
 ```
