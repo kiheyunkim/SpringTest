@@ -58,7 +58,9 @@
 @NullAndEmptySource // @NullSource, @EmptySource를 합친 것
 @EnumSource //Enum을 편리하게 사용할 수 있도록 해줌(이름 생략 가능 - 파라미터로 추정)
 @MethodSource //메소드로 부터 값을 가져와 주입함 Stream, Array 다됨(이름 생략 가능 - source Method, test Method 이름 같은 경우)
-
-
-
 ```
+
+#### 매소드 종류
+
+[링크](https://junit.org/junit5/docs/5.0.1/api/org/junit/jupiter/api/Assertions.html)
+
