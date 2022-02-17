@@ -32,7 +32,7 @@
 //조건 
 // * Standard: 메소드 이름과 뒤에 붙는 괄호를 모두 보여줌
 // * Simple: 메소드 이름만 보여줌
-// * ReplaceUnderscores: 어더스코어를 빈칸으로 변형
+// * ReplaceUnderscores: 언더스코어를 빈칸으로 변형
 // * IndicativeSentences: 테스트 클래스 이름과 테스트 메소드 이름 + 괄호를 보여줌
 
 @Order //테스트 실행 순서를 지정
